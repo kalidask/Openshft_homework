@@ -17,7 +17,7 @@ spec:
             openshiftBuild(namespace:'cicd',buildConfig: 'openshift-task', showBuildLogs: 'true')
           stage 'deployInDevelopment'
             openshiftDeploy(namespace:'cicd',deploymentConfig: 'openshift-task')
-            openshiftScale(namespace:'cicd',deploymentConfig: 'openshift-task',replicaCount: '1')
+            #openshiftScale(namespace:'cicd',deploymentConfig: 'openshift-task',replicaCount: '1')
         }
   output:
   resources:
