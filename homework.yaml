@@ -32,7 +32,7 @@
   hosts: localhost
   tasks:
     - name: Generate Inventory script
-      script: /opt/ocp_advanced_deployment_homework/scripts/generate_inventory.sh
+      script: /opt/Openshft_homework/scripts/generate_inventory.sh
 
 - name: Execute the openshift-ansible prerequisites
   import_playbook: /usr/share/ansible/openshift-ansible/playbooks/prerequisites.yml
@@ -56,7 +56,7 @@
   hosts: nfs
   tasks: 
     - name: create PVs
-      script: /opt/ocp_advanced_deployment_homework/scripts/create_pvs.sh 
+      script: /opt/Openshft_homework/scripts/create_pvs.sh 
     - name: Restarting NFS Server...
       shell: systemctl restart nfs-server
 
@@ -64,13 +64,13 @@
   hosts: localhost
   tasks:
     - name: 5G size PVs creation
-      script: /opt/ocp_advanced_deployment_homework/scripts/pvs_5Gsize.sh
+      script: /opt/Openshft_homework/scripts/pvs_5Gsize.sh
 
 - name: Create 25 definitions files for PVs 10G size
   hosts: localhost
   tasks:
     - name: 5G size PVs creation
-      script: /opt/ocp_advanced_deployment_homework/scripts/pvs_10Gsize.sh
+      script: /opt/Openshft_homework/scripts/pvs_10Gsize.sh
 
 - name: Create all PVs from definitions files
   hosts: localhost
@@ -82,36 +82,36 @@
   hosts: nodes
   tasks: 
     - name: fix nfs pvs recycling 
-      shell: docker pull registry.access.redhat.com/openshift3/ose-recycler:latest |  docker tag registry.access.redhat.com/openshift3/ose-recycler:latest registry.access.redhat.com/openshift3/ose-recycler:v3.9.30 
+      shell: docker pull registry.access.redhat.com/openshift3/ose-recycler:latest 
 
 - name: Smoke Test
   hosts: localhost
   tasks:
     - name: Project creation
-      script: /opt/ocp_advanced_deployment_homework/scripts/nodejs_mongo_app.sh
+      script: /opt/Openshft_homework/scripts/nodejs_mongo_app.sh
 
 - name: Jenkins Setup
   hosts: localhost
   tasks:
     - name: jenkins setup
-      script: /opt/ocp_advanced_deployment_homework/scripts/jenkins.sh
+      script: /opt/Openshft_homework/scripts/jenkins.sh
 
 - name: HPA configuration on production deployment of openshift-tasks
   hosts: localhost
   tasks:
     - name: Autoscaling tasks
-      script: /opt/ocp_advanced_deployment_homework/scripts/hpa.sh
+      script: /opt/Openshft_homework/scripts/hpa.sh
 
 - name: Creation of users for Alpha and Beta clients
   hosts: masters
   tasks:
     - name: user creation for Alpha & Beta Corp
-      script: /opt/ocp_advanced_deployment_homework/scripts/create_users.sh
+      script: /opt/Openshft_homework/scripts/create_users.sh
 
 - name: Assigning limitranges
   hosts: localhost
   tasks:
     - name: limitrange to new project
-      script: /opt/ocp_advanced_deployment_homework/scripts/limits.sh
+      script: /opt/Openshft_homework/scripts/limits.sh
 
 #- name: Setup the environment for Alpha and Beta clients
