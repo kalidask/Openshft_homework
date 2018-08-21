@@ -1,0 +1,25 @@
+iapiVersion: v1
+kind: BuildConfig
+metadata:
+  name: sample-pipeline
+  labels:
+    app: jenkins-pipeline-example
+    name: sample-pipeline
+    template: application-template-sample-pipeline
+spec:
+  runPolicy: Serial
+  strategy:
+    type: JenkinsPipeline
+    jenkinsPipelineStrategy:
+      jenkinsfile: |-
+        node('') {
+          stage 'buildInDevelopment'
+            openshiftBuild(namespace:'cicd',buildConfig: 'openshift-task', showBuildLogs: 'true')
+          stage 'deployInDevelopment'
+            openshiftDeploy(namespace:'cicd',deploymentConfig: 'openshift-task')
+            #openshiftScale(namespace:'cicd',deploymentConfig: 'openshift-task',replicaCount: '1')
+        }
+  output:
+  resources:
+  postCommit:
+
