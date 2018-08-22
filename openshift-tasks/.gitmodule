@@ -1,0 +1,3 @@
+[submodule "openshift-tasks"]
+ path = /Openshft_homework/openshift-tasks
+ url = git://github.com/kalidask/Openshft_homework.git
