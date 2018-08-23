@@ -13,14 +13,17 @@ spec:
     jenkinsPipelineStrategy:
       jenkinsfile: |-
         node('') {
-          stage 'buildInTasksPro'
-            openshiftBuild(namespace:'tasks',buildConfig: 'tasks2', showBuildLogs: 'true')
-          stage 'deployInTasksPro'
-            openshiftDeploy(namespace:'tasks',deploymentConfig: 'tasks2')
-            #openshiftScale(namespace:'cicd',deploymentConfig: 'openshift-task',replicaCount: '1')
-          stage 'deployinCICD'
-            openshiftDeploy(namespace:'cicd',deploymentConfig: 'tasks2')
-        }
+          stage 'buildInDevelopment'
+            openshiftBuild(namespace:'tasks',buildConfig: 'tasks', showBuildLogs: 'true')
+          stage 'deployInDevelopment'
+            openshiftDeploy(namespace:'tasks',deploymentConfig: 'tasks')
+            openshiftScale(namespace:'tasks',deploymentConfig: 'tasks',replicaCount: '5')
+          stage 'deployInQA'
+            input 'Proceeed ?'
+            openshiftTag(namespace: 'tasks', sourceStream: 'tasks',  sourceTag: 'latest', destinationStream: 'tasks', destinationTag: 'promoteToQA')
+            openshiftDeploy(namespace:'qa',deploymentConfig: 'tasks')
+            openshiftScale(namespace:'qa',deploymentConfig: 'tasks',replicaCount: '5')
+}
   output:
   resources:
   postCommit:
