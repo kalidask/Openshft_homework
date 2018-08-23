@@ -13,11 +13,13 @@ spec:
     jenkinsPipelineStrategy:
       jenkinsfile: |-
         node('') {
-          stage 'buildInDevelopment'
-            openshiftBuild(namespace:'cicd',buildConfig: 'openshift-task', showBuildLogs: 'true')
-          stage 'deployInDevelopment'
-            openshiftDeploy(namespace:'cicd',deploymentConfig: 'openshift-task')
+          stage 'buildInTasksPro'
+            openshiftBuild(namespace:'tasks',buildConfig: 'tasks2', showBuildLogs: 'true')
+          stage 'deployInTasksPro'
+            openshiftDeploy(namespace:'tasks',deploymentConfig: 'tasks2')
             #openshiftScale(namespace:'cicd',deploymentConfig: 'openshift-task',replicaCount: '1')
+          stage 'deployinCICD'
+            openshiftDeploy(namespace:'cicd',deploymentConfig: 'tasks2')
         }
   output:
   resources:
