@@ -14,11 +14,16 @@ spec:
       jenkinsfile: |-
         node('') {
           stage 'buildInDevelopment'
-            openshiftBuild(namespace:'cicd',buildConfig: 'openshift-task', showBuildLogs: 'true')
+            openshiftBuild(namespace:'tasks',buildConfig: 'tasks', showBuildLogs: 'true')
           stage 'deployInDevelopment'
-            openshiftDeploy(namespace:'cicd',deploymentConfig: 'openshift-task')
-            #openshiftScale(namespace:'cicd',deploymentConfig: 'openshift-task',replicaCount: '1')
-        }
+            openshiftDeploy(namespace:'tasks',deploymentConfig: 'tasks')
+            openshiftScale(namespace:'tasks',deploymentConfig: 'tasks',replicaCount: '5')
+          stage 'deployInQA'
+            input 'Proceeed ?'
+            openshiftTag(namespace: 'tasks', sourceStream: 'tasks',  sourceTag: 'latest', destinationStream: 'tasks', destinationTag: 'promoteToQA')
+            openshiftDeploy(namespace:'qa',deploymentConfig: 'tasks')
+            openshiftScale(namespace:'qa',deploymentConfig: 'tasks',replicaCount: '5')
+}
   output:
   resources:
   postCommit:
