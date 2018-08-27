@@ -17,12 +17,12 @@ spec:
             openshiftBuild(namespace:'tasks',buildConfig: 'tasks', showBuildLogs: 'true')
           stage 'deployInDevelopment'
             openshiftDeploy(namespace:'tasks',deploymentConfig: 'tasks')
-            openshiftScale(namespace:'tasks',deploymentConfig: 'tasks',replicaCount: '5')
+            openshiftScale(namespace:'tasks',deploymentConfig: 'tasks',replicaCount: '1')
           stage 'deployInQA'
             input 'Proceeed ?'
             openshiftTag(namespace: 'tasks', sourceStream: 'tasks',  sourceTag: 'latest', destinationStream: 'tasks', destinationTag: 'promoteToQA')
             openshiftDeploy(namespace:'qa',deploymentConfig: 'tasks')
-            openshiftScale(namespace:'qa',deploymentConfig: 'tasks',replicaCount: '5')
+            openshiftScale(namespace:'qa',deploymentConfig: 'tasks',replicaCount: '1')
 }
   output:
   resources:
